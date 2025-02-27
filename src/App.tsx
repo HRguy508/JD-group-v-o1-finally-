@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Package, ShoppingCart, MapPin, Phone, ArrowRight, Search, Menu, X, ChevronRight, Star, Heart, ShoppingBag, Mail, MapPinned, Clock, ExternalLink, LogIn, User } from 'lucide-react';
+import { MapPin, Phone, ArrowRight, Search, Menu, X, Mail, ExternalLink, LogIn } from 'lucide-react';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { AuthModal } from './components/AuthModal';
 import { ServicesSection } from './components/ServicesSection';
@@ -39,7 +39,7 @@ function App() {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
 
   const { user } = useAuth();
-  const { cartCount, favoritesCount } = useUser();
+  const { cartCount } = useUser();
 
   const handleAuthSuccess = () => {
     setIsAuthModalOpen(false);
@@ -194,6 +194,12 @@ function App() {
                 >
                   Contact
                 </a>
+                <a 
+                  href="/privacy-policy.html" 
+                  className="text-[15px] font-medium text-gray-700 hover:text-primary-cta transition-colors duration-200"
+                >
+                  Privacy Policy
+                </a>
               </div>
             </div>
 
@@ -275,6 +281,13 @@ function App() {
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
+            </a>
+            <a 
+              href="/privacy-policy.html" 
+              className="block px-4 py-2 text-[15px] font-medium text-gray-700 hover:text-primary-cta hover:bg-gray-50 rounded-lg transition-colors duration-200"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Privacy Policy
             </a>
             
             <div className="pt-3 border-t border-gray-100">
@@ -527,6 +540,9 @@ function App() {
           </div>
           <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
             <p>&copy; {new Date().getFullYear()} JD GROUP Uganda. All rights reserved.</p>
+            <p className="mt-2">
+              <a href="/privacy-policy.html" className="hover:text-highlight transition-colors duration-200">Privacy Policy</a>
+            </p>
           </div>
         </div>
       </footer>
