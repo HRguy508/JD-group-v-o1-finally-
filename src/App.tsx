@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, ArrowRight, Search, Menu, X, Mail, ExternalLink, LogIn } from 'lucide-react';
+import { MapPin, Phone, ArrowRight, Search, Menu, X, Mail, ExternalLink, LogIn, LogOut } from 'lucide-react';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { AuthModal } from './components/AuthModal';
 import { ServicesSection } from './components/ServicesSection';
@@ -38,8 +38,8 @@ function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
 
-  const { user } = useAuth();
-  const { cartCount } = useUser();
+  const { user, signOut } = useAuth();
+  useUser();
 
   const handleAuthSuccess = () => {
     setIsAuthModalOpen(false);
@@ -47,6 +47,23 @@ function App() {
       message: 'Successfully signed in!',
       type: 'success'
     });
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setIsMenuOpen(false);
+      setToast({
+        message: 'Successfully signed out!',
+        type: 'success'
+      });
+    } catch (error) {
+      console.error('Error signing out:', error);
+      setToast({
+        message: 'Failed to sign out. Please try again.',
+        type: 'error'
+      });
+    }
   };
 
   const handleShopNowClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -200,6 +217,12 @@ function App() {
                 >
                   Privacy Policy
                 </a>
+                <a 
+                  href="/terms-of-service.html" 
+                  className="text-[15px] font-medium text-gray-700 hover:text-primary-cta transition-colors duration-200"
+                >
+                  Terms of Service
+                </a>
               </div>
             </div>
 
@@ -289,10 +312,28 @@ function App() {
             >
               Privacy Policy
             </a>
+            <a 
+              href="/terms-of-service.html" 
+              className="block px-4 py-2 text-[15px] font-medium text-gray-700 hover:text-primary-cta hover:bg-gray-50 rounded-lg transition-colors duration-200"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Terms of Service
+            </a>
             
             <div className="pt-3 border-t border-gray-100">
               {user ? (
-                <UserMenu />
+                <div className="space-y-2">
+                  <div className="px-4 py-2 text-[15px] font-medium text-gray-700">
+                    {user.email}
+                  </div>
+                  <button 
+                    onClick={handleSignOut}
+                    className="flex items-center w-full px-4 py-2.5 text-[15px] font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                  >
+                    <LogOut className="h-5 w-5 mr-3" />
+                    Sign Out
+                  </button>
+                </div>
               ) : (
                 <button 
                   onClick={() => {
@@ -541,7 +582,8 @@ function App() {
           <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
             <p>&copy; {new Date().getFullYear()} JD GROUP Uganda. All rights reserved.</p>
             <p className="mt-2">
-              <a href="/privacy-policy.html" className="hover:text-highlight transition-colors duration-200">Privacy Policy</a>
+              <a href="/privacy-policy.html" className="hover:text-highlight transition-colors duration-200 mr-4">Privacy Policy</a>
+              <a href="/terms-of-service.html" className="hover:text-highlight transition-colors duration-200">Terms of Service</a>
             </p>
           </div>
         </div>
