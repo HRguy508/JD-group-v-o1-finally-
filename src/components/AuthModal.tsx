@@ -15,19 +15,22 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [authStateChanged, setAuthStateChanged] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
       setEmail('');
       setPassword('');
       setMessage(null);
+      setAuthStateChanged(false);
     }
   }, [isOpen]);
 
   // Handle auth state changes
   useEffect(() => {
     const handleAuthStateChange = (event: 'SIGNED_IN' | 'SIGNED_OUT' | 'USER_UPDATED') => {
-      if (event === 'SIGNED_IN') {
+      if (event === 'SIGNED_IN' && !authStateChanged) {
+        setAuthStateChanged(true);
         onSuccess();
       }
     };
@@ -37,7 +40,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
     });
 
     return () => subscription.unsubscribe();
-  }, [onSuccess]);
+  }, [onSuccess, authStateChanged]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +63,7 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
       } else {
         const { error } = await signInWithEmail(email, password);
         if (error) throw error;
-        onSuccess();
+        // onSuccess will be called by the auth state change listener
       }
     } catch (err) {
       setMessage({
