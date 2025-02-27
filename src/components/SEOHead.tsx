@@ -1,4 +1,3 @@
-import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 interface SEOHeadProps {
@@ -13,7 +12,7 @@ export function SEOHead({
   title = 'JD GROUP Uganda - Quality Home Solutions',
   description = 'Discover quality furniture, electronics, and appliances at affordable prices. Powered by PEPKOR\'s excellence in retail.',
   image = '/og-image.jpg',
-  url = 'https://jdgroup.ug',
+  url = 'https://jdgroup-ug.store',
   type = 'website'
 }: SEOHeadProps) {
   const fullTitle = title === 'JD GROUP Uganda - Quality Home Solutions' 

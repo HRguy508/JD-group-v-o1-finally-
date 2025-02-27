@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
   name: 'JD GROUP Uganda',
   description: 'Quality furniture, electronics, and appliances at affordable prices.',
-  url: 'https://jdgroup.ug',
+  url: 'https://jdgroup-ug.store',
   ogImage: '/og-image.jpg',
   links: {
     twitter: 'https://twitter.com/jdgroupug',
