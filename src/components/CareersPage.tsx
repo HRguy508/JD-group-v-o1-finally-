@@ -590,9 +590,10 @@ export function CareersPage() {
               entry-level opportunities. To apply:
             </p>
             <ul className="list-disc list-inside space-y-2">
-              <li>Submit your application via email to our HR department</li>
-              <li>Include your updated CV and a cover letter</li>
-              <li>Specify the position you're applying for in the subject line</li>
+              <li>Click the "Apply Now" button next to the position you're interested in</li>
+              <li>Complete the application form with your details</li>
+              <li>Upload a single PDF document containing your CV, academic certificates, National ID copy, and cover letter</li>
+              <li>Submit your application and wait for our HR team to contact you</li>
             </ul>
             <div className="mt-6 space-y-2">
               <div className="flex items-center">

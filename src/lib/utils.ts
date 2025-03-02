@@ -28,6 +28,7 @@ export function getImageFallback(title: string): string {
 }
 
 export function validatePhoneNumber(phone: string): boolean {
+  // Supports formats: +256XXXXXXXXX, 0XXXXXXXXX
   const ugandaPhoneRegex = /^(?:\+256|0)7[0-9]{8}$/;
   return ugandaPhoneRegex.test(phone.replace(/\s/g, ''));
 }
@@ -117,4 +118,19 @@ export const storage = {
 export function getErrorMessage(error: unknown): string {
   if (error instanceof Error) return error.message;
   return String(error);
+}
+
+export function isValidFileType(file: File, allowedTypes: string[]): boolean {
+  return allowedTypes.includes(file.type);
+}
+
+export function isValidFileSize(file: File, maxSize: number): boolean {
+  return file.size <= maxSize;
+}
+
+export function generateUniqueFileName(originalName: string): string {
+  const timestamp = Date.now();
+  const randomString = Math.random().toString(36).substring(2, 10);
+  const extension = originalName.split('.').pop();
+  return `${timestamp}-${randomString}.${extension}`;
 }
