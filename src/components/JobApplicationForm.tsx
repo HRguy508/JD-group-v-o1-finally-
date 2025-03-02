@@ -14,7 +14,6 @@ export function JobApplicationForm({ jobTitle, onSuccess, onCancel }: JobApplica
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [coverLetter, setCoverLetter] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -99,8 +98,7 @@ export function JobApplicationForm({ jobTitle, onSuccess, onCancel }: JobApplica
         job_title: jobTitle,
         email,
         phone,
-        cv_path: cvPath,
-        cover_letter: coverLetter
+        cv_path: cvPath
       });
 
       onSuccess();
@@ -170,21 +168,6 @@ export function JobApplicationForm({ jobTitle, onSuccess, onCancel }: JobApplica
             onChange={(e) => setPhone(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-cta focus:border-transparent"
             placeholder="+256 or 07XX XXXXXX"
-            disabled={isSubmitting}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="coverLetter" className="block text-sm font-medium text-gray-700 mb-1">
-            Cover Letter
-          </label>
-          <textarea
-            id="coverLetter"
-            value={coverLetter}
-            onChange={(e) => setCoverLetter(e.target.value)}
-            rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-cta focus:border-transparent"
-            placeholder="Tell us why you're interested in this position..."
             disabled={isSubmitting}
           />
         </div>
