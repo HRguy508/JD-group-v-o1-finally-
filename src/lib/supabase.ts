@@ -199,6 +199,34 @@ const sampleProducts = [
     image_url: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&q=80',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
+  },
+  {
+    id: '3',
+    name: 'Contemporary Bookshelf',
+    description: '4-tier wooden shelf with glass doors',
+    price: 849.99,
+    category_id: '1',
+    category: 'Furniture',
+    slug: 'contemporary-bookshelf',
+    stock_quantity: 8,
+    is_available: true,
+    image_url: 'https://images.unsplash.com/photo-1588279102920-e8df49053b9a?auto=format&fit=crop&q=80',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  },
+  {
+    id: '4',
+    name: '4K Action Camera',
+    description: 'Waterproof action camera with 4K recording',
+    price: 299.99,
+    category_id: '2',
+    category: 'Electronics',
+    slug: '4k-action-camera',
+    stock_quantity: 20,
+    is_available: true,
+    image_url: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&q=80',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
   }
 ];
 

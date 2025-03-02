@@ -7,12 +7,15 @@ import { FavoritesDrawer } from './FavoritesDrawer';
 
 export function UserMenu() {
   const { user, signOut } = useAuth();
-  const { favoritesCount, cartCount } = useUser();
+  const { cartItems, favorites } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const favoritesCount = favorites.length;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, ArrowRight, Search, Menu, X, Mail, ExternalLink, LogIn, LogOut } from 'lucide-react';
+import { MapPin, Phone, ArrowRight, Search, Menu, X, Mail, ExternalLink } from 'lucide-react';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { AuthModal } from './components/AuthModal';
 import { ServicesSection } from './components/ServicesSection';
@@ -39,7 +39,7 @@ function App() {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
 
   const { user, signOut } = useAuth();
-  useUser();
+  const { cartItems, favorites } = useUser();
 
   const handleAuthSuccess = () => {
     setIsAuthModalOpen(false);
@@ -211,18 +211,6 @@ function App() {
                 >
                   Contact
                 </a>
-                <a 
-                  href="/privacy-policy.html" 
-                  className="text-[15px] font-medium text-gray-700 hover:text-primary-cta transition-colors duration-200"
-                >
-                  Privacy Policy
-                </a>
-                <a 
-                  href="/terms-of-service.html" 
-                  className="text-[15px] font-medium text-gray-700 hover:text-primary-cta transition-colors duration-200"
-                >
-                  Terms of Service
-                </a>
               </div>
             </div>
 
@@ -241,7 +229,6 @@ function App() {
                   onClick={() => setIsAuthModalOpen(true)}
                   className="inline-flex items-center px-5 py-2.5 rounded-full bg-primary-cta text-white text-[15px] font-medium hover:bg-primary-cta/90 transition-all duration-200 shadow-sm hover:shadow"
                 >
-                  <LogIn className="h-4 w-4 mr-2" />
                   Sign In
                 </button>
               )}
@@ -305,20 +292,6 @@ function App() {
             >
               Contact
             </a>
-            <a 
-              href="/privacy-policy.html" 
-              className="block px-4 py-2 text-[15px] font-medium text-gray-700 hover:text-primary-cta hover:bg-gray-50 rounded-lg transition-colors duration-200"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Privacy Policy
-            </a>
-            <a 
-              href="/terms-of-service.html" 
-              className="block px-4 py-2 text-[15px] font-medium text-gray-700 hover:text-primary-cta hover:bg-gray-50 rounded-lg transition-colors duration-200"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Terms of Service
-            </a>
             
             <div className="pt-3 border-t border-gray-100">
               {user ? (
@@ -330,7 +303,6 @@ function App() {
                     onClick={handleSignOut}
                     className="flex items-center w-full px-4 py-2.5 text-[15px] font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
                   >
-                    <LogOut className="h-5 w-5 mr-3" />
                     Sign Out
                   </button>
                 </div>
@@ -342,7 +314,6 @@ function App() {
                   }}
                   className="flex items-center w-full px-4 py-2.5 text-[15px] font-medium text-white bg-primary-cta hover:bg-primary-cta/90 rounded-lg transition-colors duration-200"
                 >
-                  <LogIn className="h-5 w-5 mr-3" />
                   Sign In
                 </button>
               )}
@@ -449,7 +420,7 @@ function App() {
                         price={product.price}
                         rating={4.5}
                         image={product.image_url || `https://source.unsplash.com/featured/?${encodeURIComponent(product.name)}`}
-                        description={product.description}
+                        description={product.description || ''}
                         stock={product.stock_quantity}
                       />
                     ))

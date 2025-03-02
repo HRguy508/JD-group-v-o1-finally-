@@ -3,7 +3,7 @@ import { Heart, ShoppingBag } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import { Toast } from './Toast';
-import { DEFAULT_PRODUCT_IMAGE } from '../lib/storage-config';
+import { formatCurrency, getImageFallback } from '../lib/utils';
 
 interface ProductCardProps {
   id: string;
@@ -22,11 +22,7 @@ export function ProductCard({ id, title, price, rating, image, description, stoc
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
-  const isFavorite = favorites.includes(id);
-
-  const getFallbackImage = () => {
-    return `https://source.unsplash.com/featured/?${encodeURIComponent(title)}`;
-  };
+  const isFavorite = favorites.some(fav => fav.id === id);
 
   const handleImageError = () => {
     setImageError(true);
@@ -97,7 +93,7 @@ export function ProductCard({ id, title, price, rating, image, description, stoc
       <div className="relative">
         <div className={`w-full h-48 bg-gray-100 ${!imageLoaded ? 'animate-pulse' : ''}`}>
           <img 
-            src={imageError ? getFallbackImage() : image || DEFAULT_PRODUCT_IMAGE}
+            src={imageError ? getImageFallback(title) : image}
             alt={title}
             className={`w-full h-48 object-cover transition-opacity duration-300 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
@@ -137,12 +133,7 @@ export function ProductCard({ id, title, price, rating, image, description, stoc
         </div>
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold text-primary-text">
-            {new Intl.NumberFormat('en-UG', {
-              style: 'currency',
-              currency: 'UGX',
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            }).format(price * 3700 * 0.5)} {/* Apply 50% discount */}
+            {formatCurrency(price)}
           </span>
           <button 
             onClick={handleAddToCart}
