@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, ArrowRight, Search, Menu, X, Mail, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, ArrowRight, Search, Menu, X, Mail, ExternalLink, Heart, ShoppingBag } from 'lucide-react';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import { AuthModal } from './components/AuthModal';
 import { ServicesSection } from './components/ServicesSection';
@@ -13,6 +13,8 @@ import { LocationsSection } from './components/LocationsSection';
 import { useAuth } from './contexts/AuthContext';
 import { useUser } from './contexts/UserContext';
 import { supabase, getProducts, checkSupabaseConnection } from './lib/supabase';
+import { CartDrawer } from './components/CartDrawer';
+import { FavoritesDrawer } from './components/FavoritesDrawer';
 
 interface Product {
   id: string;
@@ -37,9 +39,14 @@ function App() {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
   const { user, signOut } = useAuth();
   const { cartItems, favorites } = useUser();
+
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const favoritesCount = favorites.length;
 
   const handleAuthSuccess = () => {
     setIsAuthModalOpen(false);
@@ -150,6 +157,14 @@ function App() {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
       />
+      <CartDrawer 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)} 
+      />
+      <FavoritesDrawer 
+        isOpen={isFavoritesOpen} 
+        onClose={() => setIsFavoritesOpen(false)} 
+      />
 
       {toast && (
         <Toast
@@ -234,13 +249,53 @@ function App() {
               )}
             </div>
 
-            <button 
-              className="lg:hidden p-2 text-gray-700 hover:text-primary-cta transition-colors duration-200"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+            <div className="flex items-center space-x-4 lg:hidden">
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="p-2 text-gray-700 hover:text-primary-cta transition-colors duration-200"
+                aria-label="Search products"
+              >
+                <Search className="h-5 w-5" />
+              </button>
+              
+              {user && (
+                <>
+                  <button
+                    onClick={() => setIsFavoritesOpen(true)}
+                    className="p-2 text-gray-700 hover:text-primary-cta transition-colors duration-200 relative"
+                    aria-label="View favorites"
+                  >
+                    <Heart className="h-5 w-5" />
+                    {favoritesCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-primary-cta text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                        {favoritesCount}
+                      </span>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={() => setIsCartOpen(true)}
+                    className="p-2 text-gray-700 hover:text-primary-cta transition-colors duration-200 relative"
+                    aria-label="View cart"
+                  >
+                    <ShoppingBag className="h-5 w-5" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-primary-cta text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </button>
+                </>
+              )}
+              
+              <button 
+                className="p-2 text-gray-700 hover:text-primary-cta transition-colors duration-200"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
           </div>
         </div>
 
