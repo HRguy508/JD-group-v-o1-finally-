@@ -162,12 +162,12 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="auth-email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
               type="email"
-              id="email"
+              id="auth-email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-cta focus:ring focus:ring-primary-cta focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
